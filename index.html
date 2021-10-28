@@ -1,0 +1,36 @@
+<script>
+  const cryptos = [
+    { type: 'BTC', amount: 0.15296381, investedAt: 22888.62 },
+    { type: 'DOGE', amount: 5000, investedAt: 0.012262 },
+    { type: 'ETC', amount: 40.040609, investedAt: 24.64 },
+    { type: 'ETH', amount: 2.005144, investedAt: 1120.13 },
+    { type: 'SHIB', amount: 1311286.32422093, investedAt: 0.000074 },
+  ];
+  const formatter = new Intl.NumberFormat('en-US', {
+    style: 'currency',
+    currency: 'USD',
+  });
+
+  function getTotals(cryptos) {
+    let total = 0;
+    let invested = 0;
+    cryptos.forEach((crypto, k, v) =>
+      fetch(`https://min-api.cryptocompare.com/data/price?fsym=${crypto.type}&tsyms=USD`)
+        .then((response) => {
+          return response.json();
+        })
+        .then((data) => {
+          console.log([crypto.type, data.USD]);
+          const cryptoTotal = crypto.amount * data.USD;
+          total += cryptoTotal;
+          const originalTotal = crypto.amount * crypto.investedAt;
+          invested += originalTotal;
+          document.write(`Total for ${crypto.type}: ${formatter.format(originalTotal)} => ${formatter.format(cryptoTotal)}<br><br>`);
+          return formatter.format(total);
+        })
+    );
+    return total;
+  }
+
+  const total = getTotals(cryptos);
+</script>
