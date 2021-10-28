@@ -25,9 +25,7 @@
           const originalTotal = crypto.amount * crypto.investedAt;
           invested += originalTotal;
           document.write(
-            `Total for ${crypto.type}: ${crypto.amount} coin - ${formatter.format(originalTotal)} => ${formatter.format(
-              cryptoTotal
-            )}<br><br>`
+            `${crypto.type}: ${crypto.amount} coin - ${formatter.format(originalTotal)} => ${formatter.format(cryptoTotal)}<br><br>`
           );
           return formatter.format(total);
         })
